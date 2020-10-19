@@ -1,7 +1,7 @@
 /**
  * Lacerta Post Processing
  * LC Chromatic Aberration
- * Version 1.0.0.0
+ * Version 1.0.0.1
  * Copyright (c) 2020, Silc Renew / Tokage IT Lab.
  * All rights reserved.
  */
@@ -77,10 +77,9 @@ void fragment() {
 
     for(int x = -CA_AA; x <= CA_AA; x++) {
         for(int y = -CA_AA; y <= CA_AA; y++) {
-            vec2 uv_g2 = uv_g + vec2(float(x), float(y)) * CA_OFFSET;
-            col.g += texture(TEXTURE, uv_g2).g;
-            vec2 uv_b2 = uv_b + vec2(float(x), float(y)) * CA_OFFSET;
-            col.b += texture(TEXTURE, uv_b2).b;
+            vec2 aa_offset = vec2(float(x), float(y)) * CA_OFFSET;
+            col.g += texture(TEXTURE, uv_g + aa_offset).g;
+            col.b += texture(TEXTURE, uv_b + aa_offset).b;
         }
     }
     col.g /= CA_WEIGHT;
