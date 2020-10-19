@@ -6,8 +6,11 @@ Some sample scenes with post processing for Godot.
 
 ## Preview
 
-- Lens Effects
+### Lens Effects
+
 ![preview_lens_effects](./img/preview_lens_effects.png)
+
+Special thanks by [Atarabi](https://atarabi.com/).
 
 ## License
 
