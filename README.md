@@ -16,6 +16,13 @@ Special thanks by [Atarabi](https://atarabi.com/).
 
 ![preview_color_grading](./img/preview_color_grading.png)
 
+#### Curve type
+
+0. cos
+1. bias
+2. invert bias
+
+
 ## License
 
 MIT
