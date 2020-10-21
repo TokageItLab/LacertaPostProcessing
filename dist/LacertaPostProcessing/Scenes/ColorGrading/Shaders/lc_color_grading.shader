@@ -1,7 +1,7 @@
 /**
  * Lacerta Post Processing
  * LC Color Grading
- * Version 1.0.0.1
+ * Version 1.0.0.2
  * Copyright (c) 2020, Silc Renew / Tokage IT Lab.
  * All rights reserved.
  */
@@ -139,7 +139,6 @@ void fragment() {
 
     col = rgb2hsv(col);
     col = vec3(col.r * pre_hue, col.g * pre_saturation, col.b * pre_brightness);
-    col.b = get_value_of_spline(curve_rgb_type, col.b, curve_rgb_weight, curve_rgb_s_form);
     col = hsv2rgb(vec3(col.r, col.g, col.b));
 
     col = vec3(
@@ -149,6 +148,7 @@ void fragment() {
     );
 
     col = rgb2hsv(col);
+    col.b = get_value_of_spline(curve_rgb_type, col.b, curve_rgb_weight, curve_rgb_s_form);
     col = vec3(col.r * post_hue, col.g * post_saturation, col.b * post_brightness);
     col = hsv2rgb(vec3(col.r, col.g, col.b));
 
