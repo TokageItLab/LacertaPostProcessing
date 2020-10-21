@@ -1,34 +1,34 @@
 /**
  * Lacerta Post Processing
  * LC Color Grading
- * Version 1.0.0.0
+ * Version 1.0.0.1
  * Copyright (c) 2020, Silc Renew / Tokage IT Lab.
  * All rights reserved.
  */
 shader_type canvas_item;
 
 uniform float pre_hue: hint_range(0.0, 2.0) = 1.0;
-uniform float pre_saturation: hint_range(0.0, 2.0) = 0.5;
+uniform float pre_saturation: hint_range(0.0, 2.0) = 1.0;
 uniform float pre_brightness: hint_range(0.0, 2.0) = 1.0;
 
-uniform uint curve_rgb_type = 2;
-uniform float curve_rgb_weight: hint_range(0.0, 1.0) = 0.7;
-uniform bool curve_rgb_s_form = false;
+uniform uint curve_rgb_type = 0;
+uniform float curve_rgb_weight: hint_range(0.0, 1.0) = 0.5;
+uniform bool curve_rgb_s_form = true;
 
-uniform uint curve_r_type = 1;
-uniform float curve_r_weight: hint_range(0.0, 1.0) = 0.75;
+uniform uint curve_r_type = 0;
+uniform float curve_r_weight: hint_range(0.0, 1.0) = 0.5;
 uniform bool curve_r_s_form = true;
 
-uniform uint curve_g_type = 1;
-uniform float curve_g_weight: hint_range(0.0, 1.0) = 0.6;
+uniform uint curve_g_type = 0;
+uniform float curve_g_weight: hint_range(0.0, 1.0) = 0.5;
 uniform bool curve_g_s_form = true;
 
 uniform uint curve_b_type = 0;
-uniform float curve_b_weight: hint_range(0.0, 1.0) = 0.35;
+uniform float curve_b_weight: hint_range(0.0, 1.0) = 0.5;
 uniform bool curve_b_s_form = true;
 
 uniform float post_hue: hint_range(0.0, 2.0) = 1.0;
-uniform float post_saturation: hint_range(0.0, 2.0) = 0.8;
+uniform float post_saturation: hint_range(0.0, 2.0) = 1.0;
 uniform float post_brightness: hint_range(0.0, 2.0) = 1.0;
 
 uniform float overlay_amount: hint_range(0.0, 1.0) = 0.0;
