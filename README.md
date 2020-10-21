@@ -12,6 +12,10 @@ Some sample scenes with post processing for Godot.
 
 Special thanks by [Atarabi](https://atarabi.com/).
 
+### Color Grading
+
+![preview_color_grading](./img/preview_color_grading.png)
+
 ## License
 
 MIT

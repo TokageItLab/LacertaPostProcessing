@@ -1,7 +1,7 @@
 /**
  * Lacerta Post Processing
  * LC Chromatic Aberration
- * Version 1.0.0.1
+ * Version 1.0.0.2
  * Copyright (c) 2020, Silc Renew / Tokage IT Lab.
  * All rights reserved.
  */
@@ -36,7 +36,7 @@ vec3 hsv2rgb(vec3 c) {
     return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
 }
 
-vec3 adjust_hsv(vec3 col, float amount) {
+vec3 adjust_brightness(vec3 col, float amount) {
     vec3 c = col;
     c = rgb2hsv(c);
     c = vec3(c.r, c.g, c.b * amount);
@@ -54,7 +54,7 @@ vec2 power_scaling(vec2 uv, float scale, float power, float distance_from_center
 }
 
 vec3 vignetting(vec3 col, float amount, float cos_power, float brightness, float distance_from_center) {
-    vec3 c = adjust_hsv(col, pow(cos(distance_from_center * amount), cos_power) * brightness);
+    vec3 c = adjust_brightness(col, pow(cos(distance_from_center * amount), cos_power) * brightness);
     return c;
 }
 
