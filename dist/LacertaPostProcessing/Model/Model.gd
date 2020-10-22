@@ -1,4 +1,7 @@
 extends Spatial
 
+export var animate: bool = true
+
 func _ready():
-    $AnimationPlayer.play("Animation")
+    if animate:
+        $AnimationPlayer.play("Animation")
