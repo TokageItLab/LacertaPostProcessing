@@ -21,7 +21,7 @@ Special thanks by [Atarabi](https://atarabi.com/).
 0. cos
 1. bias
 2. invert bias
-
+3. curve texture
 
 ## License
 

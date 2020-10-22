@@ -1,7 +1,7 @@
 /**
  * Lacerta Post Processing
  * LC Color Grading
- * Version 1.0.0.2
+ * Version 1.0.0.3
  * Copyright (c) 2020, Silc Renew / Tokage IT Lab.
  * All rights reserved.
  */
@@ -14,18 +14,22 @@ uniform float pre_brightness: hint_range(0.0, 2.0) = 1.0;
 uniform uint curve_rgb_type = 0;
 uniform float curve_rgb_weight: hint_range(0.0, 1.0) = 0.5;
 uniform bool curve_rgb_s_form = true;
+uniform sampler2D curve_rgb_texture: hint_black;
 
 uniform uint curve_r_type = 0;
 uniform float curve_r_weight: hint_range(0.0, 1.0) = 0.5;
 uniform bool curve_r_s_form = true;
+uniform sampler2D curve_r_texture: hint_black;
 
 uniform uint curve_g_type = 0;
 uniform float curve_g_weight: hint_range(0.0, 1.0) = 0.5;
 uniform bool curve_g_s_form = true;
+uniform sampler2D curve_g_texture: hint_black;
 
 uniform uint curve_b_type = 0;
 uniform float curve_b_weight: hint_range(0.0, 1.0) = 0.5;
 uniform bool curve_b_s_form = true;
+uniform sampler2D curve_b_texture: hint_black;
 
 uniform float post_hue: hint_range(0.0, 2.0) = 1.0;
 uniform float post_saturation: hint_range(0.0, 2.0) = 1.0;
@@ -105,9 +109,9 @@ vec3 overlay(vec3 c1, vec3 c2) {
     return vec3(overlay_calc(c1.r, c2.r), overlay_calc(c1.g, c2.g), overlay_calc(c1.b, c2.b));
 }
 
-float get_value_of_spline(uint type, float x, float weight, bool s_form) {
+float get_value_of_spline(uint type, float x, float weight, bool s_form, sampler2D curve_tex) {
     float y = 0.0;
-    int nt = min(max(0, int(type)), 2);
+    int nt = min(max(0, int(type)), 3);
     switch (nt) {
         case 0:
             if (s_form) {
@@ -130,6 +134,9 @@ float get_value_of_spline(uint type, float x, float weight, bool s_form) {
                 y = inv_bias(weight, x);
             }
             break;
+        case 3:
+            y = texture(curve_tex, vec2(x, 0)).r;
+            break;
     }
     return y;
 }
@@ -142,13 +149,13 @@ void fragment() {
     col = hsv2rgb(vec3(col.r, col.g, col.b));
 
     col = vec3(
-        get_value_of_spline(curve_r_type, col.r, curve_r_weight, curve_r_s_form),
-        get_value_of_spline(curve_g_type, col.g, curve_g_weight, curve_g_s_form),
-        get_value_of_spline(curve_b_type, col.b, curve_b_weight, curve_b_s_form)
+        get_value_of_spline(curve_r_type, col.r, curve_r_weight, curve_r_s_form, curve_r_texture),
+        get_value_of_spline(curve_g_type, col.g, curve_g_weight, curve_g_s_form, curve_g_texture),
+        get_value_of_spline(curve_b_type, col.b, curve_b_weight, curve_b_s_form, curve_b_texture)
     );
 
     col = rgb2hsv(col);
-    col.b = get_value_of_spline(curve_rgb_type, col.b, curve_rgb_weight, curve_rgb_s_form);
+    col.b = get_value_of_spline(curve_rgb_type, col.b, curve_rgb_weight, curve_rgb_s_form, curve_rgb_texture);
     col = vec3(col.r * post_hue, col.g * post_saturation, col.b * post_brightness);
     col = hsv2rgb(vec3(col.r, col.g, col.b));
 
