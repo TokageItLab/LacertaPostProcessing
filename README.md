@@ -23,6 +23,12 @@ Special thanks by [Atarabi](https://atarabi.com/).
 2. invert bias
 3. curve texture
 
+### VHS Effects
+
+![preview_vhs_effects](./img/preview_vhs_effects.png)
+
+Reference of noise hash is [ShaderV](https://godotengine.org/asset-library/asset/589).
+
 ## License
 
 MIT
