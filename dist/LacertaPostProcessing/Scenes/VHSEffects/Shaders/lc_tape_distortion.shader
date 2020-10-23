@@ -1,13 +1,13 @@
 /**
  * Lacerta Post Processing
  * LC Tape Distortion
- * Version 1.0.0.0
+ * Version 1.0.0.1
  * Copyright (c) 2020, Silc Renew / Tokage IT Lab.
  * All rights reserved.
  */
 shader_type canvas_item;
 
-uniform float wave_amount: hint_range(0.0, 10.0) = 3.0;
+uniform float wave_amount: hint_range(0.0, 10.0) = 1.5;
 
 float noise(vec2 v) {
     return fract(1e4 * sin(17.0 * v.x + v.y * 0.1) * (0.1 + abs(sin(v.y * 13.0 + v.x))));

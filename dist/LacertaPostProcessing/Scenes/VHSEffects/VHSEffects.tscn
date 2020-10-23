@@ -7,7 +7,7 @@
 
 [sub_resource type="ShaderMaterial" id=1]
 shader = ExtResource( 5 )
-shader_param/wave_amount = 3.0
+shader_param/wave_amount = 1.5
 
 [sub_resource type="ShaderMaterial" id=2]
 shader = ExtResource( 1 )
@@ -16,9 +16,10 @@ shader_param/v_blur_radius = 3.0
 
 [sub_resource type="ShaderMaterial" id=3]
 shader = ExtResource( 2 )
-shader_param/noise_amount = 0.2
-shader_param/saturation = 0.8
-shader_param/rgb_offset = 10.0
+shader_param/noise_amount = 0.15
+shader_param/saturation = 1.0
+shader_param/clipping_saturation = 0.8
+shader_param/rgb_offset = 7.5
 shader_param/rgb_amount = 0.5
 
 [sub_resource type="ProceduralSky" id=4]

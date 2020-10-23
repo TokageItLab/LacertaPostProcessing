@@ -1,15 +1,16 @@
 /**
  * Lacerta Post Processing
  * LC RGB2YUV
- * Version 1.0.0.0
+ * Version 1.0.0.1
  * Copyright (c) 2020, Silc Renew / Tokage IT Lab.
  * All rights reserved.
  */
 shader_type canvas_item;
 
-uniform float noise_amount: hint_range(0.0, 1.0) = 0.2;
-uniform float saturation: hint_range(0.0, 1.0) = 0.8;
-uniform float rgb_offset: hint_range(0.0, 20.0) = 10.0;
+uniform float noise_amount: hint_range(0.0, 1.0) = 0.15;
+uniform float saturation: hint_range(0.0, 1.0) = 1.0;
+uniform float clipping_saturation: hint_range(0.0, 1.0) = 0.8;
+uniform float rgb_offset: hint_range(0.0, 20.0) = 7.5;
 uniform float rgb_amount: hint_range(0.0, 1.0) = 0.5;
 
 vec3 rgb2hsv(vec3 c) {
@@ -61,7 +62,7 @@ void fragment() {
     col *= 1.0 / (1.0 + rgb_amount);
     col = mix(col, overlay(col, vec3(noise(UV * TIME))), noise_amount);
     col = rgb2hsv(col);
-    col.g = col.g * saturation;
+    col.g = min(col.g * saturation, clipping_saturation);
     col = hsv2rgb(col);
     col = rgb2yuv(col);
     COLOR.rgb = col.rgb;
