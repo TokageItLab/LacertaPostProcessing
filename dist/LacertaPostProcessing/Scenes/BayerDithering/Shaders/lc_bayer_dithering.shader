@@ -1,7 +1,7 @@
 /**
  * Lacerta Post Processing
  * LC Bayer Dithering
- * Version 1.0.0.0
+ * Version 1.0.0.1
  * Copyright (c) 2020, Silc Renew / Tokage IT Lab.
  * All rights reserved.
  */
@@ -117,11 +117,13 @@ void fragment() {
             col = vec3(1.0);
         }
     } else {
-        if (col.r >= limit && col.g >= limit && col.b >= limit) {
-            col = vec3(1.0);
-        } else if (col.r >= limit) {
+        if (col.r >= limit) {
             if (col.g >= limit) {
-                col = vec3(1.0, 1.0, 0.0);
+                if (col.b >= limit) {
+                    col = vec3(1.0);
+                } else {
+                    col = vec3(1.0, 1.0, 0.0);
+                }
             } else if (col.b >= limit) {
                 col = vec3(1.0, 0.0, 1.0);
             } else {
