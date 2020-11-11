@@ -1,7 +1,7 @@
 /**
  * Lacerta Post Processing
  * LC Chromatic Aberration
- * Version 1.0.0.2
+ * Version 1.0.0.3
  * Copyright (c) 2020, Silc Renew / Tokage IT Lab.
  * All rights reserved.
  */
@@ -21,7 +21,7 @@ uniform float vignetting_cos_power: hint_range(1.0, 20.0) = 4.0;
 uniform float vignetting_brightness: hint_range(0.0, 2.0) = 1.05;
 
 vec3 rgb2hsv(vec3 c) {
-    vec4 K = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);
+    vec4 K = vec4(0.0, -0.3333, 0.6667, -1.0);
     vec4 p = mix(vec4(c.bg, K.wz), vec4(c.gb, K.xy), step(c.b, c.g));
     vec4 q = mix(vec4(p.xyw, c.r), vec4(c.r, p.yzx), step(p.x, c.r));
 
@@ -31,7 +31,7 @@ vec3 rgb2hsv(vec3 c) {
 }
 
 vec3 hsv2rgb(vec3 c) {
-    vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
+    vec4 K = vec4(1.0, 0.6667, 0.3333, 3.0);
     vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);
     return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
 }
@@ -45,7 +45,8 @@ vec3 adjust_brightness(vec3 col, float amount) {
 }
 
 vec2 scaling(vec2 uv, float scale) {
-    return vec2((uv.x / scale) + (1.0 - (1.0 / scale)) * 0.5, (1.0 - (1.0 - uv.y) / scale) - (1.0 - (1.0 / scale)) * 0.5);
+    float inv_scale = 1.0 / scale;
+    return vec2((uv.x * inv_scale) + (1.0 - inv_scale) * 0.5, (1.0 - (1.0 - uv.y) * inv_scale) - (1.0 - inv_scale) * 0.5);
 }
 
 vec2 power_scaling(vec2 uv, float scale, float power, float distance_from_center) {
@@ -59,7 +60,7 @@ vec3 vignetting(vec3 col, float amount, float cos_power, float brightness, float
 }
 
 float get_distance(vec2 uv, float aspect) {
-    vec2 vdif = vec2(abs(uv.x - 0.5) * aspect, abs(uv.y - 0.5));
+    vec2 vdif = vec2(abs(uv.x - 0.5), abs(uv.y - 0.5) * aspect);
     float max_length = length(vec2(0.5 * aspect, 0.5));
     return length(vdif) / max_length;
 }
@@ -67,7 +68,7 @@ float get_distance(vec2 uv, float aspect) {
 void fragment() {
     
     vec3 col = vec3(0.0);
-    float aspect = 1.0 / (TEXTURE_PIXEL_SIZE.x / TEXTURE_PIXEL_SIZE.y);
+    float aspect = TEXTURE_PIXEL_SIZE.x / TEXTURE_PIXEL_SIZE.y;
     float distance_from_center = get_distance(UV, radial ? aspect : 1.0);
     
     // 色収差

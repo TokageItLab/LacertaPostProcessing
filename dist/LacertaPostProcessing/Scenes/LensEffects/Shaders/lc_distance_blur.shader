@@ -1,7 +1,7 @@
 /**
  * Lacerta Post Processing
  * LC Distance Blur
- * Version 1.0.0.0
+ * Version 1.0.0.1
  * Copyright (c) 2020, Silc Renew / Tokage IT Lab.
  * All rights reserved.
  */
@@ -14,7 +14,7 @@ uniform float blur_power: hint_range(1.0, 10.0) = 5.0;
 const int MAX_ITERATION = 3; // (MAX_ITERATION * 2) ^ 2
 
 float get_distance(vec2 uv, float aspect) {
-    vec2 vdif = vec2(abs(uv.x - 0.5) * aspect, abs(uv.y - 0.5));
+    vec2 vdif = vec2(abs(uv.x - 0.5), abs(uv.y - 0.5) * aspect);
     float max_length = length(vec2(0.5 * aspect, 0.5));
     return length(vdif) / max_length;
 }
@@ -22,7 +22,7 @@ float get_distance(vec2 uv, float aspect) {
 void fragment() {
 
     vec3 col = vec3(0.0);
-    float aspect = 1.0 / (TEXTURE_PIXEL_SIZE.x / TEXTURE_PIXEL_SIZE.y);
+    float aspect = TEXTURE_PIXEL_SIZE.x / TEXTURE_PIXEL_SIZE.y;
     float distance_from_center = get_distance(UV, radial ? aspect : 1.0);
     
     float radius = pow(distance_from_center, blur_power - 1.0) * blur_radius;

@@ -1,7 +1,7 @@
 /**
  * Lacerta Post Processing
  * LC Bayer Dithering
- * Version 1.0.0.1
+ * Version 1.0.0.2
  * Copyright (c) 2020, Silc Renew / Tokage IT Lab.
  * All rights reserved.
  */
@@ -12,7 +12,7 @@ uniform int pixel_size = 1;
 uniform bool use_average = true;
 
 vec3 rgb2hsv(vec3 c) {
-    vec4 K = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);
+    vec4 K = vec4(0.0, -0.3333, 0.6667, -1.0);
     vec4 p = mix(vec4(c.bg, K.wz), vec4(c.gb, K.xy), step(c.b, c.g));
     vec4 q = mix(vec4(p.xyw, c.r), vec4(c.r, p.yzx), step(p.x, c.r));
 
@@ -22,7 +22,7 @@ vec3 rgb2hsv(vec3 c) {
 }
 
 vec3 hsv2rgb(vec3 c) {
-    vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
+    vec4 K = vec4(1.0, 0.6667, 0.3333, 3.0);
     vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);
     return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
 }

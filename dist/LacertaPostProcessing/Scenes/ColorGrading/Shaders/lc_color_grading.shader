@@ -1,7 +1,7 @@
 /**
  * Lacerta Post Processing
  * LC Color Grading
- * Version 1.0.0.3
+ * Version 1.0.0.4
  * Copyright (c) 2020, Silc Renew / Tokage IT Lab.
  * All rights reserved.
  */
@@ -39,7 +39,7 @@ uniform float overlay_amount: hint_range(0.0, 1.0) = 0.0;
 uniform sampler2D overlay_texture: hint_white;
 
 vec3 rgb2hsv(vec3 c) {
-    vec4 K = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);
+    vec4 K = vec4(0.0, -0.3333, 0.6667, -1.0);
     vec4 p = mix(vec4(c.bg, K.wz), vec4(c.gb, K.xy), step(c.b, c.g));
     vec4 q = mix(vec4(p.xyw, c.r), vec4(c.r, p.yzx), step(p.x, c.r));
 
@@ -49,7 +49,7 @@ vec3 rgb2hsv(vec3 c) {
 }
 
 vec3 hsv2rgb(vec3 c) {
-    vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
+    vec4 K = vec4(1.0, 0.6667, 0.3333, 3.0);
     vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);
     return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
 }
@@ -75,25 +75,25 @@ float cos_bias(float b, float x) {
 
 float gain(float g, float x) {
     if (x < 0.5) {
-        return bias(1.0 - g, 2.0 * x) / 2.0;
+        return bias(1.0 - g, 2.0 * x) * 0.5;
     } else {
-        return 1.0 - bias(1.0 - g, 2.0 - 2.0 * x) / 2.0;
+        return 1.0 - bias(1.0 - g, 2.0 - 2.0 * x) * 0.5;
     }
 }
 
 float inv_gain(float g, float x) {
     if (x < 0.5) {
-        return inv_bias(1.0 - g, 2.0 * x) / 2.0;
+        return inv_bias(1.0 - g, 2.0 * x) * 0.5;
     } else {
-        return 1.0 - inv_bias(1.0 - g, 2.0 - 2.0 * x) / 2.0;
+        return 1.0 - inv_bias(1.0 - g, 2.0 - 2.0 * x) * 0.5;
     }
 }
 
 float cos_gain(float g, float x) {
     if (x < 0.5) {
-        return cos_bias(1.0 - g, 2.0 * x) / 2.0;
+        return cos_bias(1.0 - g, 2.0 * x) * 0.5;
     } else {
-        return 1.0 - cos_bias(1.0 - g, 2.0 - 2.0 * x) / 2.0;
+        return 1.0 - cos_bias(1.0 - g, 2.0 - 2.0 * x) * 0.5;
     }
 }
 
@@ -101,7 +101,7 @@ float overlay_calc(float c1, float c2) {
     if (c1 <= 0.5) {
         return c1 * c2 / 0.5;
     } else {
-        return -1.0 + 2.0 * (c1 + c2) - c1 * c2 / 0.5;
+        return -1.0 + 2.0 * (c1 + c2) - c1 * c2 * 2.0;
     }
 }
 
