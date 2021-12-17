@@ -2,8 +2,8 @@
  * Lacerta Post Processing
  * LC Chromatic Aberration
  * Version 1.0.0.3
- * Copyright (c) 2020, Silc Renew / Tokage IT Lab.
- * All rights reserved.
+ * Copyright (c) 2020-2021, Silc Tokage Renew / Tokage IT Lab.
+ * MIT License
  */
 shader_type canvas_item;
 

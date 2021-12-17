@@ -29,6 +29,10 @@ Special thanks by [Atarabi](https://atarabi.com/).
 
 Reference of noise hash is [ShaderV](https://godotengine.org/asset-library/asset/589).
 
+### One Direction Blur
+
+![preview_one_direction_blur](./img/preview_one_direction_blur.png)
+
 ### Bayer Dithering
 
 ![preview_bayer_dithering](./img/preview_bayer_dithering.png)
